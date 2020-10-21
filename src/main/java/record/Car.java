@@ -1,17 +1,9 @@
 package record;
 
-import annotation.TransportationDevice;
-
-import java.lang.annotation.Annotation;
-import java.util.Map;
-
+import java.io.Serializable;
 
 public record Car(String type, String brand,
                   String model, String power,
-                  Double price, String... otherProperties) implements TransportationDevice{
+                  Double price, String... otherProperties) implements Serializable {
 
-    @Override
-    public Class<? extends Annotation> annotationType() {
-        return null;
-    }
 }
