@@ -41,18 +41,25 @@ public class MappingServiceImpl implements MappingService{
                                      List<? super Serializable> objList,
                                      String[] fields) {
         switch (type) {
-            case CarType.GAS: objList.add(new Car(
-                    type,
-                    fields[1],
-                    fields[2],
-                    fields[4],
-                    fields[3]
-            )); break;
-            case CarType.ELECTRIC: objList.add(new Car(type, fields[1],
-                    fields[2],
-                    fields[4],
-                    null
-            )); break;
+            case CarType.GAS: objList.add(
+                    new Car(
+                        type,
+                        fields[0], //brand
+                        fields[1], //model
+                        fields[3], //power
+                        fields[4], //price
+                        fields[2]  //otherProps
+                    )
+            );break;
+            case CarType.ELECTRIC: objList.add(
+                    new Car(
+                        type,
+                        fields[1],
+                        fields[2],
+                        fields[4],
+                        null
+                    )
+            ); break;
             case CarType.HYBRID: break;
             default:break;
         }

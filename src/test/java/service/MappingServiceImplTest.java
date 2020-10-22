@@ -32,7 +32,7 @@ public class MappingServiceImplTest {
         var cars = mappingService.mapToObject(lines);
 
         Car car = new Car(CarType.GAS, "honda", "civic", "80kw",
-                "18000 euro", "1.5l");
+                "18000euro", "1.5l");
 
         Assert.assertEquals(car, cars.get(0));
     }
