@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MappingServiceImpl implements MappingService{
+public class MappingServiceImpl implements MappingService {
 
     private static final String COMMA = ",";
     private static final String WHITE_SPACE = " ";
@@ -19,16 +19,16 @@ public class MappingServiceImpl implements MappingService{
         var objList = new ArrayList<>();
         var fields = new String[]{};
 
-        for (String s:lines) {
+        for (String s : lines) {
             var type = s.toLowerCase().substring(0, s.toLowerCase().indexOf(WHITE_SPACE));
 
             fields = s.toLowerCase()
                     .replaceAll("\s++", EMPTY_STR)
                     .substring(
                             s.toLowerCase()
-                                .lastIndexOf(
-                                        POSTFIX
-                                ) + POSTFIX.length()
+                                    .lastIndexOf(
+                                            POSTFIX
+                                    ) + POSTFIX.length()
                     ).split(COMMA);
 
             mapToSpecificObject(type, objList, fields);
@@ -41,27 +41,42 @@ public class MappingServiceImpl implements MappingService{
                                      List<? super Serializable> objList,
                                      String[] fields) {
         switch (type) {
-            case CarType.GAS: objList.add(
-                    new Car(
-                        type,
-                        fields[0], //brand
-                        fields[1], //model
-                        fields[3], //power
-                        fields[4], //price
-                        fields[2]  //otherProps
-                    )
-            );break;
-            case CarType.ELECTRIC: objList.add(
-                    new Car(
-                        type,
-                        fields[1],
-                        fields[2],
-                        fields[4],
-                        null
-                    )
-            ); break;
-            case CarType.HYBRID: break;
-            default:break;
+            case CarType.GAS:
+                objList.add(
+                        new Car(
+                                type,
+                                fields[0], //brand
+                                fields[1], //model
+                                fields[3], //power
+                                fields[4], //price
+                                fields[2]  //otherProps
+                        )
+                );
+                break;
+            case CarType.ELECTRIC:
+                objList.add(
+                        new Car(
+                                type,
+                                fields[1],
+                                fields[2],
+                                fields[4],
+                                null
+                        )
+                );
+                break;
+            case CarType.HYBRID:
+                objList.add(
+                        new Car(
+                                type,
+                                fields[1],
+                                fields[2],
+                                fields[3],
+                                fields[4]
+                        )
+                );
+                break;
+            default:
+                break;
         }
     }
 
