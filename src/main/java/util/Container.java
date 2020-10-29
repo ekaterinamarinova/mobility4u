@@ -22,7 +22,7 @@ public final class Container {
     private static final List<Vehicle> sharedVehicleList = new ArrayList<>();
     private static final MappingService mappingService = new MappingServiceImpl(sharedVehicleList);
     private static final ReaderService readerService = new ReaderServiceImpl();
-    private static final CatalogueService catalogueService = new CatalogueServiceImpl(sharedVehicleList);
+    private static final CatalogueService catalogueService = new CatalogueServiceImpl(sharedVehicleList, mappingService);
 
     private Container(){}
 
