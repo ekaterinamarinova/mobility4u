@@ -1,12 +1,11 @@
 package record;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
 public record Car(String type, String brand,
                   String model, String power,
-                  String price, String... otherProperties) implements Serializable {
+                  String price, String... otherProperties) implements Vehicle {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
