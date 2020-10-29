@@ -1,6 +1,9 @@
-package service;
+package util;
 
 import record.Vehicle;
+import service.CatalogueServiceImpl;
+import service.MappingServiceImpl;
+import service.ReaderServiceImpl;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
 import service.definition.ReaderService;
@@ -10,7 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class InitService {
+import static util.Constants.SHARED_LIST_NAME;
+
+public final class Container {
 
     private static final Map<String, Object> container = new HashMap<>(5);
 
@@ -19,13 +24,13 @@ public final class InitService {
     private static final ReaderService readerService = new ReaderServiceImpl();
     private static final CatalogueService catalogueService = new CatalogueServiceImpl(sharedVehicleList);
 
-    private InitService(){}
+    private Container(){}
 
     public static void init() {
         container.put(mappingService.getClass().getName(), mappingService);
         container.put(readerService.getClass().getName(), readerService);
         container.put(catalogueService.getClass().getName(), catalogueService);
-        container.put("sharedVehicleList", sharedVehicleList);
+        container.put(SHARED_LIST_NAME, sharedVehicleList);
     }
 
     public static Map<String, Object> getContainer() {
