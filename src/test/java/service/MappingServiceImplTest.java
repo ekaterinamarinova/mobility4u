@@ -9,7 +9,6 @@ import record.Car;
 import record.CarType;
 import service.definition.MappingService;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +20,12 @@ public class MappingServiceImplTest {
 
     @Before
     public void setUp() {
-        mappingService = new MappingServiceImpl();
         lines = new ArrayList<>();
+        mappingService = new MappingServiceImpl(new ArrayList<>());
     }
 
     @Test
-    public void testMapToObject() {
+    public void testMapGasCarToObject() {
         lines.add("GAS_CAR Honda, Civic, 1.5L, 80KW, 18000 euro");
 
         var cars = mappingService.mapToObject(lines);
