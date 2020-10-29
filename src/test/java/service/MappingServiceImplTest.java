@@ -1,5 +1,6 @@
 package service;
 
+import exception.InvalidVehicleTypeException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,13 +26,13 @@ public class MappingServiceImplTest {
     }
 
     @Test
-    public void testMapGasCarToObject() {
+    public void testMapGasCarToObject() throws InvalidVehicleTypeException {
         lines.add("GAS_CAR Honda, Civic, 1.5L, 80KW, 18000 euro");
 
-        var cars = mappingService.mapToObject(lines);
+        var cars = mappingService.mapObjects(lines);
 
-        Car car = new Car(CarType.GAS, "honda", "civic", "80kw",
-                "18000euro", "1.5l");
+        Car car = new Car(CarType.GAS, "honda", "civic", 80,
+                18000, "engineDisplacement: 1.5l");
 
         Assert.assertEquals(car, cars.get(0));
     }
