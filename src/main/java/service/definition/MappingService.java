@@ -1,8 +1,9 @@
 package service.definition;
 
-import java.io.Serializable;
+import record.Vehicle;
+
 import java.util.List;
 
 public interface MappingService {
-    List<? super Serializable> mapToObject(List<String> lines);
+    List<Vehicle> mapToObject(List<String> lines);
 }

@@ -2,9 +2,9 @@ package service;
 
 import record.Car;
 import record.CarType;
+import record.Vehicle;
 import service.definition.MappingService;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +15,13 @@ public class MappingServiceImpl implements MappingService {
     private static final String EMPTY_STR = "";
     private static final String POSTFIX = "_car";
 
-    public List<? super Serializable> mapToObject(List<String> lines) {
-        var objList = new ArrayList<>();
+    private List<Vehicle> vehicles;
+
+    public MappingServiceImpl(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public List<Vehicle> mapToObject(List<String> lines) {
         var fields = new String[]{};
 
         for (String s : lines) {
@@ -31,18 +36,17 @@ public class MappingServiceImpl implements MappingService {
                                     ) + POSTFIX.length()
                     ).split(COMMA);
 
-            mapToSpecificObject(type, objList, fields);
+            mapToSpecificObject(type, fields);
         }
 
-        return objList;
+        return vehicles;
     }
 
     private void mapToSpecificObject(String type,
-                                     List<? super Serializable> objList,
                                      String[] fields) {
         switch (type) {
             case CarType.GAS:
-                objList.add(
+                vehicles.add(
                         new Car(
                                 type,
                                 fields[0], //brand
@@ -54,7 +58,7 @@ public class MappingServiceImpl implements MappingService {
                 );
                 break;
             case CarType.ELECTRIC:
-                objList.add(
+                vehicles.add(
                         new Car(
                                 type,
                                 fields[1],
@@ -65,7 +69,7 @@ public class MappingServiceImpl implements MappingService {
                 );
                 break;
             case CarType.HYBRID:
-                objList.add(
+                vehicles.add(
                         new Car(
                                 type,
                                 fields[1],
