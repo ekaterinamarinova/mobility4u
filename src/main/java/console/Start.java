@@ -1,18 +1,19 @@
 package console;
 
-import record.Vehicle;
+import exception.InvalidVehicleTypeException;
 import service.CatalogueServiceImpl;
-import util.Container;
 import service.MappingServiceImpl;
 import service.ReaderServiceImpl;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
 import service.definition.ReaderService;
+import util.Container;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class Start  {
     private static final Properties PROPERTIES = new Properties();
 
     //TODO: in a different project finish a basic component framework because it's the boilerplate for me
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InvalidVehicleTypeException {
         //load properties
         PROPERTIES.load(new FileInputStream(PROPERTIES_PATH));
         //load catalogue from properties path
@@ -38,8 +39,8 @@ public class Start  {
 
     }
 
-    public static void loadCatalogue(String property) throws IOException {
-        //instantiate the components nad their dependencies
+    public static void loadCatalogue(String property) throws IOException, InvalidVehicleTypeException {
+        //instantiate the components and their dependencies
         Container.init();
         //get the loadingService instance from the component map
         var mappingService = (MappingService) Container.getContainer().get(MappingServiceImpl.class.getName());
@@ -47,7 +48,7 @@ public class Start  {
 
         //map the read file to application-specific objects
         //a.k.a Vehicles
-        mappingService.mapToObject(
+        mappingService.mapObjects(
                 //read the given file
                 readerService.readFile(
                         Path.of(ABSOLUTE_PATH + property)
@@ -69,16 +70,17 @@ public class Start  {
                 """);
     }
 
-    public static void callFunctionBasedOnChoice(int choice) {
+    public static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException {
 //        var vehicleList = (List<Vehicle>) InitService.getContainer().get("sharedVehicleList");
         var catalogueService = (CatalogueService) Container.getContainer().get(CatalogueServiceImpl.class.getName());
         switch (choice) {
             case 1:
                 catalogueService.showCatalogue();
                 break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
+            case 2:
+            case 3:
+            case 4:
+                catalogueService.addNewCar(SCANNER);break;
             case 5:
                 catalogueService.sortByCarType();
                 catalogueService.showCatalogue();
@@ -88,9 +90,10 @@ public class Start  {
                 catalogueService.showCatalogue();
                 break;
             case 7: break;
-            case 8: System.exit(1); break;
+            case 8: System.exit(1);break;
 
-            default: break;
+            default:
+                System.out.println("Invalid choice, please try again.");break;
         }
     }
 
