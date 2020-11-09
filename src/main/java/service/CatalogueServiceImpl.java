@@ -1,24 +1,27 @@
 package service;
 
+import console.ConsolePrinter;
 import exception.InvalidVehicleTypeException;
 import record.Car;
-import record.CarType;
 import record.Vehicle;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static util.Constants.*;
 
 public class CatalogueServiceImpl implements CatalogueService {
 
-    private final List<Vehicle> vehicles;
+    private List<Vehicle> vehicles;
     private final MappingService mappingService;
 
     public CatalogueServiceImpl(List<Vehicle> vehicles, MappingService mappingService) {
@@ -35,64 +38,90 @@ public class CatalogueServiceImpl implements CatalogueService {
 
     @Override
     public void sortByCarType() {
-        mapToCarList().sort(
-                Comparator.comparing(
-                        Car::type
+        vehicles = mapToCarList().stream()
+                .sorted(
+                        Comparator.comparing(
+                                Car::type
+                        )
                 )
-        );
+                .collect(Collectors.toList());
     }
 
     @Override
     public void sortByBrand() {
-        mapToCarList().sort(
-                Comparator.comparing(
-                        Car::brand
+        vehicles = mapToCarList().stream()
+                .sorted(
+                        Comparator.comparing(
+                                Car::brand
+                        )
                 )
-        );
+                .collect(Collectors.toList());
     }
+
+//    public <T extends > void sortBy(T param) {
+//        vehicles = mapToCarList().stream()
+//                .sorted(
+//                        Comparator.comparing(
+//                                param
+//                        )
+//                )
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public void addNewCarFromSTDIN(Scanner scanner, String carType) throws InvalidVehicleTypeException {
-        System.out.println("Please input a car type - gas_car, electric_car or hybrid_car:");
+        ConsolePrinter.printMessageBasedOnType(carType);
 
-        printMessageBasedOnType(carType);
+        List<String> properties = new ArrayList<>();
 
-        String[] properties = new String[5];
+        while (true) {
+            String current = scanner.next();
+            if (STOP_WRITING_TO_FILE_WORD.equals(current)) break;
+            properties.add(current);
+        }
+
+        properties.forEach(
+                word -> word = word.toLowerCase()
+                        .replaceAll(WHITE_SPACE, EMPTY_SPACE)
+        );
 
         var car = mappingService.mapObject(
                 carType,
-                properties.toString().toLowerCase()
-                        .replace(WHITE_SPACE, EMPTY_SPACE)
-                        .split(COMMA),
+                properties.toArray(String[]::new),
                 vehicles
         );
 
         System.out.println("Car object successfully created: " + car.toString());
     }
 
+    @Override
+    public void writeToFileFromSTDIN(Scanner scanner) throws IOException {
+        System.out.println("Please enter file name and extension (example test.txt). " +
+                "To signal that you want to stop writing to the current file use !close! as a stop word.");
+        var fileName = scanner.next();
+        if (STOP_WRITING_TO_FILE_WORD.equals(fileName)) return;
+
+        var fullPath = Path.of(PATH_TO_NEW_FILE + fileName);
+        var words = new StringBuilder();
+
+        if (Files.notExists(fullPath))
+            Files.createFile(fullPath);
+
+        while (true) {
+            var current = scanner.next();
+            if (STOP_WRITING_TO_FILE_WORD.equals(current)) break;
+            words.append(current).append(WHITE_SPACE);
+        }
+
+        Files.writeString(fullPath, words);
+        System.out.println("Contents of file " + fileName + " include: ");
+        System.out.println(Files.readAllLines(fullPath));
+    }
+
     private List<Car> mapToCarList() {
         return vehicles.stream()
                 .map(v -> (Car) v)
                 .collect(Collectors.toList());
-    }
-
-    private void printMessageBasedOnType(String type) {
-        switch (type) {
-            case CarType.GAS -> System.out.print("""
-                    For gas car, enter the following properties on the next line:
-                    brand, model, power(KW), engine displacement(liters), price 
-                    """);
-            case CarType.ELECTRIC -> System.out.print("""
-                    For electric car, enter the following properties on the next line:
-                    brand, model, power(KW), battery power(Ah), price
-                    """);
-            case CarType.HYBRID -> System.out.print("""
-                    For hybrid car, enter the following properties on the next line:
-                    brand, model, displacement(l), power(KW), battery power(Ah), price
-                    """);
-            default -> System.out.println("Invalid vehicle type!");
-
-        }
     }
 
 }
