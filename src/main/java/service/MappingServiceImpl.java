@@ -66,9 +66,9 @@ public class MappingServiceImpl implements MappingService {
                         type,
                         fields[0], //brand
                         fields[1], //model
-                        Integer.valueOf(fields[3].replaceAll("[a-z]", "")), //power
-                        Integer.valueOf(fields[4].replaceAll("[a-z]", "")), //price
-                        "engineDisplacement: " + fields[2]  //otherProps
+                        Integer.valueOf(fields[3].replaceAll(REGEX, EMPTY_SPACE)), //power
+                        Integer.valueOf(fields[4].replaceAll(REGEX, EMPTY_SPACE)), //price
+                        ENGINE_DISPLACEMENT + fields[2]  //otherProps
                 );
                 vehicles.add(car);break;
             case CarType.ELECTRIC:
@@ -76,9 +76,9 @@ public class MappingServiceImpl implements MappingService {
                         type,
                         fields[0],
                         fields[1],
-                        Integer.valueOf(fields[2].replaceAll("[a-z]", "")), //power
-                        Integer.valueOf(fields[4].replaceAll("[a-z]", "")),
-                        "batteryPower: " + fields[3]
+                        Integer.valueOf(fields[2].replaceAll(REGEX, EMPTY_SPACE)), //power
+                        Integer.valueOf(fields[4].replaceAll(REGEX, EMPTY_SPACE)),
+                        BATTERY_POWER + fields[3]
                 );
                 vehicles.add(car);break;
             case CarType.HYBRID:
@@ -86,10 +86,10 @@ public class MappingServiceImpl implements MappingService {
                         type,
                         fields[0],
                         fields[1],
-                        Integer.valueOf(fields[3].replaceAll("[a-z]", "")), //power
-                        Integer.valueOf(fields[5].replaceAll("[a-z]", "")),
-                        "engineDisplacement: " + fields[2],
-                        "batteryPower: " + fields[4]
+                        Integer.valueOf(fields[3].replaceAll(REGEX, EMPTY_SPACE)), //power
+                        Integer.valueOf(fields[5].replaceAll(REGEX, EMPTY_SPACE)),
+                        ENGINE_DISPLACEMENT + fields[2],
+                        BATTERY_POWER + fields[4]
                 );
                 vehicles.add(car);break;
             default:
