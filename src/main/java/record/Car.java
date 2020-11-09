@@ -3,9 +3,12 @@ package record;
 import java.util.Arrays;
 import java.util.Objects;
 
-public record Car(String type, String brand,
-                  String model, Integer power,
-                  Integer price, String... otherProperties) implements Vehicle {
+public record Car(String type,
+                  String brand,
+                  String model,
+                  Integer power,
+                  Integer price,
+                  String... otherProperties) implements Vehicle {
 
     @Override
     public boolean equals(Object o) {
