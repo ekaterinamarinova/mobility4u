@@ -1,5 +1,4 @@
-package console;
-
+import console.ConsolePrinter;
 import exception.InvalidVehicleTypeException;
 import record.CarType;
 import service.CatalogueServiceImpl;
@@ -13,7 +12,6 @@ import util.Container;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Properties;
 import java.util.Scanner;
@@ -21,7 +19,6 @@ import java.util.Scanner;
 import static util.Constants.*;
 
 public class Start  {
-    private static final PrintStream CONSOLE_OUT = System.out;
     private static final InputStream CONSOLE_IN = System.in;
     private static final Scanner SCANNER = new Scanner(CONSOLE_IN);
     private static final Properties PROPERTIES = new Properties();
@@ -33,7 +30,7 @@ public class Start  {
         loadCatalogue(PROPERTIES.getProperty(FILE_PATH_PROPERTY));
 
         while (true) {
-            printOptions();
+            ConsolePrinter.printOptions();
             callFunctionBasedOnChoice(SCANNER.nextInt());
         }
     }
@@ -52,20 +49,6 @@ public class Start  {
                         Path.of(ABSOLUTE_PATH + property)
                 )
         );
-    }
-
-    public static void printOptions() {
-        CONSOLE_OUT.println("""
-                Please make your choice:
-                1 - Show the entire Mobility4U catalogue;
-                2 - Add a new electric car;
-                3 - Add a new gas car;
-                4 - Add a new hybrid car;
-                5 - Print the catalogue sorted by car-type;
-                6 - Print the catalogue sorted by brand (alphabetically)
-                7 - Write to file;
-                8 - Stop the program.
-                """);
     }
 
     public static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException, IOException {
