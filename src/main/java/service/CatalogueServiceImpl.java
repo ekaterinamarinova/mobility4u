@@ -7,9 +7,11 @@ import record.Vehicle;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static util.Constants.*;
@@ -50,17 +52,22 @@ public class CatalogueServiceImpl implements CatalogueService {
     }
 
     @Override
-    public void addNewCar(Scanner scanner) throws InvalidVehicleTypeException {
-        System.out.println("Please input a car type - gas, electric or hybrid:");
-        var type = scanner.nextLine();
+    public void addNewCarFromSTDIN(Scanner scanner, String carType) throws InvalidVehicleTypeException {
+        System.out.println("Please input a car type - gas_car, electric_car or hybrid_car:");
 
-        printMessageBasedOnType(type);
+        printMessageBasedOnType(carType);
 
-        var properties = scanner.nextLine()
-                .toLowerCase()
-                .replace(WHITE_SPACE, EMPTY_SPACE)
-                .split(COMMA);
-        mappingService.mapObject(type, properties, vehicles);
+        String[] properties = new String[5];
+
+        var car = mappingService.mapObject(
+                carType,
+                properties.toString().toLowerCase()
+                        .replace(WHITE_SPACE, EMPTY_SPACE)
+                        .split(COMMA),
+                vehicles
+        );
+
+        System.out.println("Car object successfully created: " + car.toString());
     }
 
     private List<Car> mapToCarList() {
@@ -71,23 +78,21 @@ public class CatalogueServiceImpl implements CatalogueService {
 
     private void printMessageBasedOnType(String type) {
         switch (type) {
-            case CarType.GAS:
-                System.out.println("""
-                        For gas car, enter the following properties on the next line:
-                        brand, model, power(KW), engine displacement(liters), price 
-                        """);
-                break;
-            case CarType.ELECTRIC:
-                System.out.println("""
-                        For electric car, enter the following properties on the next line:
-                        brand, model, power(KW), battery power(Ah), price
-                        """);
-                break;
-            case CarType.HYBRID:
-                System.out.println("""
-                        For hybrid car, enter the following properties on the next line:
-                        brand, model, displacement(l), power(KW), battery power(Ah), price
-                        """);
+            case CarType.GAS -> System.out.print("""
+                    For gas car, enter the following properties on the next line:
+                    brand, model, power(KW), engine displacement(liters), price 
+                    """);
+            case CarType.ELECTRIC -> System.out.print("""
+                    For electric car, enter the following properties on the next line:
+                    brand, model, power(KW), battery power(Ah), price
+                    """);
+            case CarType.HYBRID -> System.out.print("""
+                    For hybrid car, enter the following properties on the next line:
+                    brand, model, displacement(l), power(KW), battery power(Ah), price
+                    """);
+            default -> System.out.println("Invalid vehicle type!");
+
         }
     }
+
 }

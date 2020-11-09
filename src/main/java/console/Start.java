@@ -1,6 +1,7 @@
 package console;
 
 import exception.InvalidVehicleTypeException;
+import record.CarType;
 import service.CatalogueServiceImpl;
 import service.MappingServiceImpl;
 import service.ReaderServiceImpl;
@@ -25,7 +26,6 @@ public class Start  {
     private static final Scanner SCANNER = new Scanner(CONSOLE_IN);
     private static final Properties PROPERTIES = new Properties();
 
-    //TODO: in a different project finish a basic component framework because it's the boilerplate for me
     public static void main(String[] args) throws IOException, InvalidVehicleTypeException {
         //load properties
         PROPERTIES.load(new FileInputStream(PROPERTIES_PATH));
@@ -46,8 +46,7 @@ public class Start  {
         var mappingService = (MappingService) Container.getContainer().get(MappingServiceImpl.class.getName());
         var readerService = (ReaderService) Container.getContainer().get(ReaderServiceImpl.class.getName());
 
-        //map the read file to application-specific objects
-        //a.k.a Vehicles
+        //map the read file to application-specific objects - Vehicles
         mappingService.mapObjects(
                 //read the given file
                 readerService.readFile(
@@ -71,16 +70,17 @@ public class Start  {
     }
 
     public static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException {
-//        var vehicleList = (List<Vehicle>) InitService.getContainer().get("sharedVehicleList");
         var catalogueService = (CatalogueService) Container.getContainer().get(CatalogueServiceImpl.class.getName());
         switch (choice) {
             case 1:
                 catalogueService.showCatalogue();
                 break;
             case 2:
+                catalogueService.addNewCarFromSTDIN(SCANNER, CarType.ELECTRIC);break;
             case 3:
+                catalogueService.addNewCarFromSTDIN(SCANNER, CarType.GAS);break;
             case 4:
-                catalogueService.addNewCar(SCANNER);break;
+                catalogueService.addNewCarFromSTDIN(SCANNER, CarType.HYBRID);break;
             case 5:
                 catalogueService.sortByCarType();
                 catalogueService.showCatalogue();

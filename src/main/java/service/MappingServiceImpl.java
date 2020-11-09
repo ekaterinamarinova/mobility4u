@@ -41,9 +41,18 @@ public class MappingServiceImpl implements MappingService {
         return vehicles;
     }
 
-    public void mapObject(String type,
+    /**
+     *
+     * @param type
+     * @param fields
+     * @param vehicles
+     * @return the created car object
+     * @throws InvalidVehicleTypeException
+     */
+    public Car mapObject(String type,
                           String[] fields,
                           List<Vehicle> vehicles) throws InvalidVehicleTypeException {
+        Car car;
         switch (type) {
             /*
             I would like to point out that I am initially against storing Integer values
@@ -53,48 +62,44 @@ public class MappingServiceImpl implements MappingService {
              */
 
             case CarType.GAS:
-                vehicles.add(
-                        new Car(
-                                type,
-                                fields[0], //brand
-                                fields[1], //model
-                                Integer.valueOf(fields[3].replaceAll("[a-z]", "")), //power
-                                Integer.valueOf(fields[4].replaceAll("[a-z]", "")), //price
-                                "engineDisplacement: " + fields[2]  //otherProps
-                        )
+                car = new Car(
+                        type,
+                        fields[0], //brand
+                        fields[1], //model
+                        Integer.valueOf(fields[3].replaceAll("[a-z]", "")), //power
+                        Integer.valueOf(fields[4].replaceAll("[a-z]", "")), //price
+                        "engineDisplacement: " + fields[2]  //otherProps
                 );
-                break;
+                vehicles.add(car);break;
             case CarType.ELECTRIC:
-                vehicles.add(
-                        new Car(
-                                type,
-                                fields[0],
-                                fields[1],
-                                Integer.valueOf(fields[2].replaceAll("[a-z]", "")), //power
-                                Integer.valueOf(fields[4].replaceAll("[a-z]", "")),
-                                "batteryPower: " + fields[3]
-                        )
+                car = new Car(
+                        type,
+                        fields[0],
+                        fields[1],
+                        Integer.valueOf(fields[2].replaceAll("[a-z]", "")), //power
+                        Integer.valueOf(fields[4].replaceAll("[a-z]", "")),
+                        "batteryPower: " + fields[3]
                 );
-                break;
+                vehicles.add(car);break;
             case CarType.HYBRID:
-                vehicles.add(
-                        new Car(
-                                type,
-                                fields[0],
-                                fields[1],
-                                Integer.valueOf(fields[3].replaceAll("[a-z]", "")), //power
-                                Integer.valueOf(fields[5].replaceAll("[a-z]", "")),
-                                "engineDisplacement: " + fields[2],
-                                "batteryPower: " + fields[4]
-                        )
+                car = new Car(
+                        type,
+                        fields[0],
+                        fields[1],
+                        Integer.valueOf(fields[3].replaceAll("[a-z]", "")), //power
+                        Integer.valueOf(fields[5].replaceAll("[a-z]", "")),
+                        "engineDisplacement: " + fields[2],
+                        "batteryPower: " + fields[4]
                 );
-                break;
+                vehicles.add(car);break;
             default:
                 throw new InvalidVehicleTypeException("The type received is invalid. Currently supported types are: " +
                         Arrays.toString(CarType.values()) +
                         " case insensitive.");
 
         }
+
+        return car;
     }
 
 }
