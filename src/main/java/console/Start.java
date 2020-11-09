@@ -36,7 +36,6 @@ public class Start  {
             printOptions();
             callFunctionBasedOnChoice(SCANNER.nextInt());
         }
-
     }
 
     public static void loadCatalogue(String property) throws IOException, InvalidVehicleTypeException {
@@ -69,31 +68,25 @@ public class Start  {
                 """);
     }
 
-    public static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException {
-        var catalogueService = (CatalogueService) Container.getContainer().get(CatalogueServiceImpl.class.getName());
+    public static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException, IOException {
+        var catalogueService =
+                (CatalogueService) Container.getContainer().get(CatalogueServiceImpl.class.getName());
         switch (choice) {
-            case 1:
-                catalogueService.showCatalogue();
-                break;
-            case 2:
-                catalogueService.addNewCarFromSTDIN(SCANNER, CarType.ELECTRIC);break;
-            case 3:
-                catalogueService.addNewCarFromSTDIN(SCANNER, CarType.GAS);break;
-            case 4:
-                catalogueService.addNewCarFromSTDIN(SCANNER, CarType.HYBRID);break;
-            case 5:
+            case 1 -> catalogueService.showCatalogue();
+            case 2 -> catalogueService.addNewCarFromSTDIN(SCANNER, CarType.ELECTRIC);
+            case 3 -> catalogueService.addNewCarFromSTDIN(SCANNER, CarType.GAS);
+            case 4 -> catalogueService.addNewCarFromSTDIN(SCANNER, CarType.HYBRID);
+            case 5 -> {
                 catalogueService.sortByCarType();
                 catalogueService.showCatalogue();
-                break;
-            case 6:
+            }
+            case 6 -> {
                 catalogueService.sortByBrand();
                 catalogueService.showCatalogue();
-                break;
-            case 7: break;
-            case 8: System.exit(1);break;
-
-            default:
-                System.out.println("Invalid choice, please try again.");break;
+            }
+            case 7 -> catalogueService.writeToFileFromSTDIN(SCANNER);
+            case 8 -> System.exit(1);
+            default -> System.out.println("Invalid choice, please try again.");
         }
     }
 
