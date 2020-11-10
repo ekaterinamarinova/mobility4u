@@ -3,10 +3,10 @@ import exception.InvalidVehicleTypeException;
 import model.CarType;
 import service.CatalogueServiceImpl;
 import service.MappingServiceImpl;
-import service.ReaderServiceImpl;
+import service.FileOpsServiceImpl;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
-import service.definition.ReaderService;
+import service.definition.FileOpsService;
 import util.Container;
 
 import java.io.FileInputStream;
@@ -29,6 +29,8 @@ public class Start  {
     private static final String NEGATIVE_ANSWER = "n";
     private static final String POSITIVE_ANSWER = "y";
 
+    private static Path userPath;
+
     public static void main(String[] args) throws Exception {
         ConsolePrinter.printLoadFileOptions();
         loadCatalogBasedOnUserInput(SCANNER.nextInt());
@@ -37,9 +39,10 @@ public class Start  {
             ConsolePrinter.printOptions();
             callFunctionBasedOnChoice(SCANNER.nextInt());
             System.out.println("Would you like to make another choice? Y/N");
-            if (NEGATIVE_ANSWER.equals(SCANNER.next().toLowerCase())) break;
-            if (POSITIVE_ANSWER.equals(SCANNER.next().toLowerCase())) continue;
-            else throw new IllegalArgumentException("Invalid choice.");
+            var choice = SCANNER.next();
+            if (POSITIVE_ANSWER.equals(choice.toLowerCase())) continue;
+            if (NEGATIVE_ANSWER.equals(choice.toLowerCase())) break;
+            else System.out.println("Invalid choice, try again.");
         }
     }
 
@@ -48,37 +51,33 @@ public class Start  {
             //load properties
             PROPERTIES.load(new FileInputStream(PROPERTIES_PATH));
             //load catalogue from properties path
-            loadCatalogue(ABSOLUTE_PATH + PROPERTIES.getProperty(FILE_PATH_PROPERTY));
+            userPath = Path.of(ABSOLUTE_PATH + PROPERTIES.getProperty(FILE_PATH_PROPERTY));
+            loadCatalogue(userPath);
         }
 
         if (choice == 2) {
             System.out.println("Enter the full file path on the next line, example C:/User/Desktop/mobility.txt: ");
-            var pathToFile = Paths.get(SCANNER.next());
-            if (Files.notExists(pathToFile))
-                throw new FileNotFoundException("File in path <" + pathToFile + "> was not found.");
-            loadCatalogue(pathToFile.toString());
+            userPath = Paths.get(SCANNER.next());
+            if (Files.notExists(userPath))
+                throw new FileNotFoundException("File in path <" + userPath + "> was not found.");
+            loadCatalogue(userPath);
         }
     }
 
-    private static void loadCatalogue(String property) throws IOException, InvalidVehicleTypeException {
+    private static void loadCatalogue(Path userPathToCatalogFile) throws IOException, InvalidVehicleTypeException {
         //instantiate the components and their dependencies
         Container.init();
         //get the loadingService instance from the component map
         var mappingService = (MappingService) Container.getContainer().get(MappingServiceImpl.class.getName());
-        var readerService = (ReaderService) Container.getContainer().get(ReaderServiceImpl.class.getName());
-
+        var fileOpsService = (FileOpsService) Container.getContainer().get(FileOpsServiceImpl.class.getName());
         //map the read file to application-specific objects - Vehicles
-        mappingService.mapObjects(
-                //read the given file
-                readerService.readFile(
-                        Path.of(property)
-                )
-        );
+        mappingService.mapObjects(fileOpsService.readFile(userPathToCatalogFile));
     }
 
     private static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException, IOException {
         var catalogueService =
                 (CatalogueService) Container.getContainer().get(CatalogueServiceImpl.class.getName());
+        catalogueService.setPathToUserCatalog(userPath);
         switch (choice) {
             case 1 -> catalogueService.showCatalogue();
             case 2 -> catalogueService.addNewCarFromSTDIN(SCANNER, CarType.ELECTRIC);
