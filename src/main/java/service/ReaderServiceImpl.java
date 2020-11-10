@@ -9,6 +9,12 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class ReaderServiceImpl implements ReaderService {
+    /**
+     * {@inheritDoc}
+     * @param pathToFile - the absolute path to the file
+     * @return
+     * @throws IOException
+     */
     @Override
     public List<String> readFile(Path pathToFile) throws IOException {
         if (Files.notExists(pathToFile)) throw new InvalidPathException("The path <" + pathToFile + "> is invalid.");
