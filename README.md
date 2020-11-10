@@ -19,4 +19,4 @@ HYBRID_CAR Toyota, Prius, 1.5L, 50KW, 12000Ah, 24000 euro
 ````
 Here the positions of brand, model, price etc are fixed, since that's the protocol the app is following.
 ## Dependencies
-- [Junit 4.12](https://mvnrepository.com/artifact/junit/junit/4.12)
+- [Junit 4.13.1](https://mvnrepository.com/artifact/junit/junit/4.13.1)
