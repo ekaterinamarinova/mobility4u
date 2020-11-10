@@ -32,13 +32,11 @@ public record Car(String type,
 
     @Override
     public String toString() {
-        return "Car{" +
-                "type='" + type + '\'' +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", power='" + power + '\'' +
-                ", price='" + price + '\'' +
-                ", otherProperties=" + Arrays.toString(otherProperties) +
-                '}';
+        return type.toUpperCase() +
+                " " + brand +
+                ", " + model +
+                ", " + power +
+                ", " + price +
+                ", " + Arrays.toString(otherProperties);
     }
 }
