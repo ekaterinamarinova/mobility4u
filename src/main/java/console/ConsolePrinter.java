@@ -39,4 +39,19 @@ public final class ConsolePrinter {
                 8 - Stop the program.
                 """);
     }
+
+    public static void printLoadFileOptions() {
+        System.out.println("""
+                You need to specify a populated or empty csv catalog file
+                whose contents are going to be loaded and mapped in the application.
+                You can do this in two ways:
+                 1. By modifying the application.properties file_path property and;
+                 2. By specifying the absolute file path to the file, including file name and extension.
+                 
+                 If you choose option 1, before typing your choice, go and make the changes in application.properties.
+                 Otherwise a default empty file in the default location is going to be loaded.
+                 
+                 Type 1 or 2 on the next line:  
+                """);
+    }
 }
