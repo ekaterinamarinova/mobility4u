@@ -1,13 +1,15 @@
 package service.definition;
 
+import model.Vehicle;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
 /**
- * A service responsible for the reading of the catalog file.
+ * A service responsible for the reading and writing to the catalog file.
  */
-public interface ReaderService {
+public interface FileOpsService {
     /**
      * Reads the file from the given path, if exists,
      * saving its contents in a list of strings,
@@ -19,4 +21,13 @@ public interface ReaderService {
      * @throws IOException - if invalid path, etc.
      */
     List<String> readFile(Path pathToFile) throws IOException;
+
+    /**
+     * Writes to the catalog.
+     *
+     * @param pathToFile
+     * @param content
+     * @throws IOException
+     */
+    void writeToFile(Path pathToFile, List<String> content) throws IOException;
 }
