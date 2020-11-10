@@ -3,10 +3,10 @@ package util;
 import model.Vehicle;
 import service.CatalogueServiceImpl;
 import service.MappingServiceImpl;
-import service.ReaderServiceImpl;
+import service.FileOpsServiceImpl;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
-import service.definition.ReaderService;
+import service.definition.FileOpsService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,8 +39,8 @@ public final class Container {
 
     private static final List<Vehicle> sharedVehicleList = new ArrayList<>();
     private static final MappingService mappingService = new MappingServiceImpl(sharedVehicleList);
-    private static final ReaderService readerService = new ReaderServiceImpl();
-    private static final CatalogueService catalogueService = new CatalogueServiceImpl(sharedVehicleList, mappingService);
+    private static final FileOpsService fileOps = new FileOpsServiceImpl();
+    private static final CatalogueService catalogueService = new CatalogueServiceImpl(sharedVehicleList, mappingService, fileOps);
 
     private Container(){}
 
@@ -49,7 +49,7 @@ public final class Container {
      */
     public static void init() {
         container.put(mappingService.getClass().getName(), mappingService);
-        container.put(readerService.getClass().getName(), readerService);
+        container.put(fileOps.getClass().getName(), fileOps);
         container.put(catalogueService.getClass().getName(), catalogueService);
         container.put(SHARED_LIST_NAME, sharedVehicleList);
     }
