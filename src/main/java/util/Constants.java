@@ -9,6 +9,7 @@ public final class Constants {
     public static final String ABSOLUTE_PATH = Path.of("").toAbsolutePath().toString();
     public static final String PROPERTIES_PATH = ABSOLUTE_PATH + "/src/main/resources/application.properties";
     public static final String PATH_TO_NEW_FILE = ABSOLUTE_PATH + "/src/main/resources/";
+    public static final String PATH_TO_TEST_SIMULATED_INPUT_FILE = ABSOLUTE_PATH + "/src/test/resources/SimulatedUserInput.txt";
     public static final String FILE_PATH_PROPERTY = "file_path";
 
     /**
@@ -24,7 +25,7 @@ public final class Constants {
     public static final String WHITE_SPACE = " ";
     public static final String EMPTY_SPACE = "";
     public static final String COMMA = ",";
-    public static final String REGEX = "[a-z,.;-]";
+    public static final String REGEX = "[A-Za-z,.;-]";
 
     /**
      * end of user stdin property
