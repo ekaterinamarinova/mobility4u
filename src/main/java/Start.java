@@ -10,9 +10,12 @@ import service.definition.ReaderService;
 import util.Container;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -23,21 +26,41 @@ public class Start  {
     private static final Scanner SCANNER = new Scanner(CONSOLE_IN);
     private static final Properties PROPERTIES = new Properties();
 
-    public static void main(String[] args) throws IOException, InvalidVehicleTypeException {
-        //load properties
-        PROPERTIES.load(new FileInputStream(PROPERTIES_PATH));
-        //load catalogue from properties path
-        loadCatalogue(PROPERTIES.getProperty(FILE_PATH_PROPERTY));
+    private static final String NEGATIVE_ANSWER = "n";
+    private static final String POSITIVE_ANSWER = "y";
+
+    public static void main(String[] args) throws Exception {
+        ConsolePrinter.printLoadFileOptions();
+        loadCatalogBasedOnUserInput(SCANNER.nextInt());
 
         while (true) {
             ConsolePrinter.printOptions();
             callFunctionBasedOnChoice(SCANNER.nextInt());
             System.out.println("Would you like to make another choice? Y/N");
-            if ("n".equals(SCANNER.next().toLowerCase())) break;
+            if (NEGATIVE_ANSWER.equals(SCANNER.next().toLowerCase())) break;
+            if (POSITIVE_ANSWER.equals(SCANNER.next().toLowerCase())) continue;
+            else throw new IllegalArgumentException("Invalid choice.");
         }
     }
 
-    public static void loadCatalogue(String property) throws IOException, InvalidVehicleTypeException {
+    private static void loadCatalogBasedOnUserInput(int choice) throws IOException, InvalidVehicleTypeException {
+        if (choice == 1) {
+            //load properties
+            PROPERTIES.load(new FileInputStream(PROPERTIES_PATH));
+            //load catalogue from properties path
+            loadCatalogue(ABSOLUTE_PATH + PROPERTIES.getProperty(FILE_PATH_PROPERTY));
+        }
+
+        if (choice == 2) {
+            System.out.println("Enter the full file path on the next line, example C:/User/Desktop/mobility.txt: ");
+            var pathToFile = Paths.get(SCANNER.next());
+            if (Files.notExists(pathToFile))
+                throw new FileNotFoundException("File in path <" + pathToFile + "> was not found.");
+            loadCatalogue(pathToFile.toString());
+        }
+    }
+
+    private static void loadCatalogue(String property) throws IOException, InvalidVehicleTypeException {
         //instantiate the components and their dependencies
         Container.init();
         //get the loadingService instance from the component map
@@ -48,12 +71,12 @@ public class Start  {
         mappingService.mapObjects(
                 //read the given file
                 readerService.readFile(
-                        Path.of(ABSOLUTE_PATH + property)
+                        Path.of(property)
                 )
         );
     }
 
-    public static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException, IOException {
+    private static void callFunctionBasedOnChoice(int choice) throws InvalidVehicleTypeException, IOException {
         var catalogueService =
                 (CatalogueService) Container.getContainer().get(CatalogueServiceImpl.class.getName());
         switch (choice) {
