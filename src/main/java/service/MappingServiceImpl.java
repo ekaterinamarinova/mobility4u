@@ -72,16 +72,16 @@ public class MappingServiceImpl implements MappingService {
                             ENGINE_DISPLACEMENT + fields[2]  //otherProps
                     );
                     case CarType.ELECTRIC -> new Car(type,
-                            fields[0],
-                            fields[1],
+                            fields[0], //brand
+                            fields[1], //model
                             Integer.valueOf(fields[2].replaceAll(REGEX, EMPTY_SPACE)), //power
-                            Integer.valueOf(fields[4].replaceAll(REGEX, EMPTY_SPACE)),
+                            Integer.valueOf(fields[4].replaceAll(REGEX, EMPTY_SPACE)), //price
                             BATTERY_POWER + fields[3]);
                     case CarType.HYBRID -> new Car(type,
-                            fields[0],
-                            fields[1],
+                            fields[0], //brand
+                            fields[1], //model
                             Integer.valueOf(fields[3].replaceAll(REGEX, EMPTY_SPACE)), //power
-                            Integer.valueOf(fields[5].replaceAll(REGEX, EMPTY_SPACE)),
+                            Integer.valueOf(fields[5].replaceAll(REGEX, EMPTY_SPACE)), //price
                             ENGINE_DISPLACEMENT + fields[2],
                             BATTERY_POWER + fields[4]);
                     default -> throw new InvalidVehicleTypeException(
