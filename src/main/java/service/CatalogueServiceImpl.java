@@ -10,11 +10,9 @@ import service.definition.MappingService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static util.Constants.*;
@@ -29,6 +27,9 @@ public class CatalogueServiceImpl implements CatalogueService {
         this.mappingService = mappingService;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showCatalogue() {
         for (Vehicle v : vehicles) {
@@ -36,6 +37,9 @@ public class CatalogueServiceImpl implements CatalogueService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sortByCarType() {
         vehicles = mapToCarList().stream()
@@ -47,6 +51,9 @@ public class CatalogueServiceImpl implements CatalogueService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sortByBrand() {
         vehicles = mapToCarList().stream()
@@ -58,32 +65,34 @@ public class CatalogueServiceImpl implements CatalogueService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addNewCarFromSTDIN(Scanner scanner, String carType) throws InvalidVehicleTypeException {
         ConsolePrinter.printMessageBasedOnType(carType);
-
-        List<String> properties = new ArrayList<>();
+        StringBuilder carProps = new StringBuilder();
 
         while (true) {
             String current = scanner.next();
             if (STOP_WRITING_TO_FILE_WORD.equals(current)) break;
-            properties.add(current);
+            carProps.append(current);
         }
-
-        properties.forEach(
-                word -> word = word.toLowerCase()
-                        .replaceAll(WHITE_SPACE, EMPTY_SPACE)
-        );
 
         var car = mappingService.mapObject(
                 carType,
-                properties.toArray(String[]::new),
+                carProps.toString()
+                        .replaceAll(WHITE_SPACE, EMPTY_SPACE)
+                        .split(COMMA),
                 vehicles
         );
 
         System.out.println("Car object successfully created: " + car.toString());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void writeToFileFromSTDIN(Scanner scanner) throws IOException {
         System.out.println("Please enter file name and extension (example test.txt). " +
