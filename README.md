@@ -5,6 +5,9 @@ This is an application used with a CLI whose purpose is to perform CRUD operatio
 Nothing much, really. The starting class is Start.java, you can either run it from there or assemble the jar with maven and execute it.
 
 One mandatory thing is the catalog file that must be added/referenced to.
+You can either use application.properties to reference the path to the catalog file in the project structure, 
+or you can just tell the app where your file is located by giving it the absolute path, including file name and extension, on startup.
+
 The protocol for the data in the catalog file is as follows:
 1. As to Vehicle types, only cars are currently supported.
 2. Supported car types are GAS_CAR, HYBRID_CAR or ELECTRIC_CAR.
