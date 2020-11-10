@@ -3,6 +3,7 @@ package service.definition;
 import exception.InvalidVehicleTypeException;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 /**
@@ -18,12 +19,12 @@ public interface CatalogueService {
     /**
      * Sorts the contents based on the car type - alphabetically.
      */
-    void sortByCarType();
+    void sortByCarType() throws IOException;
 
     /**
      * Sorts by brand - alphabetically.
      */
-    void sortByBrand();
+    void sortByBrand() throws IOException;
 
     /**
      * Allows the user to add a new car to the catalog.
@@ -31,7 +32,7 @@ public interface CatalogueService {
      * @param carType - the car type;
      * @throws InvalidVehicleTypeException - self explanatory
      */
-    void addNewCarFromSTDIN(Scanner scanner, String carType) throws InvalidVehicleTypeException;
+    void addNewCarFromSTDIN(Scanner scanner, String carType) throws InvalidVehicleTypeException, IOException;
 
     /**
      * Allows the user the ability to write contents to a newly created file.
@@ -39,4 +40,6 @@ public interface CatalogueService {
      * @throws IOException - if writing go wrong - no permission, etc.
      */
     void writeToFileFromSTDIN(Scanner scanner) throws IOException;
+
+    void setPathToUserCatalog(Path pathToUserCatalog);
 }
