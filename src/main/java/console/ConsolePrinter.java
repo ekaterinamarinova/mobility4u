@@ -2,9 +2,12 @@ package console;
 
 import record.CarType;
 
+import static util.Constants.STOP_WRITING_TO_FILE_WORD;
+
 public final class ConsolePrinter {
 
     public static void printMessageBasedOnType(String type) {
+        System.out.println("In order to indicate the end of your input, please use: " + STOP_WRITING_TO_FILE_WORD);
         switch (type) {
             case CarType.GAS -> System.out.print("""
                     For gas car, enter the following properties on the next line:

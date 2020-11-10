@@ -58,16 +58,6 @@ public class CatalogueServiceImpl implements CatalogueService {
                 .collect(Collectors.toList());
     }
 
-//    public <T extends > void sortBy(T param) {
-//        vehicles = mapToCarList().stream()
-//                .sorted(
-//                        Comparator.comparing(
-//                                param
-//                        )
-//                )
-//                .collect(Collectors.toList());
-//    }
-
     @Override
     public void addNewCarFromSTDIN(Scanner scanner, String carType) throws InvalidVehicleTypeException {
         ConsolePrinter.printMessageBasedOnType(carType);
@@ -97,7 +87,7 @@ public class CatalogueServiceImpl implements CatalogueService {
     @Override
     public void writeToFileFromSTDIN(Scanner scanner) throws IOException {
         System.out.println("Please enter file name and extension (example test.txt). " +
-                "To signal that you want to stop writing to the current file use !close! as a stop word.");
+                "To signal that you want to stop writing to the current file use " + STOP_WRITING_TO_FILE_WORD + " as a stop word.");
         var fileName = scanner.next();
         if (STOP_WRITING_TO_FILE_WORD.equals(fileName)) return;
 

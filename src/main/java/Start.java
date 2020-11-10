@@ -32,6 +32,8 @@ public class Start  {
         while (true) {
             ConsolePrinter.printOptions();
             callFunctionBasedOnChoice(SCANNER.nextInt());
+            System.out.println("Would you like to make another choice? Y/N");
+            if ("n".equals(SCANNER.next().toLowerCase())) break;
         }
     }
 
