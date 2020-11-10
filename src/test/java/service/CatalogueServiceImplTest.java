@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import record.CarType;
-import record.Vehicle;
+import model.CarType;
+import model.Vehicle;
 
 import java.io.IOException;
 import java.nio.file.Path;

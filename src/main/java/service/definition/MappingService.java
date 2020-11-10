@@ -1,8 +1,8 @@
 package service.definition;
 
 import exception.InvalidVehicleTypeException;
-import record.Car;
-import record.Vehicle;
+import model.Car;
+import model.Vehicle;
 
 import java.util.List;
 

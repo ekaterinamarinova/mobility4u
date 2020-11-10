@@ -1,6 +1,6 @@
 package console;
 
-import record.CarType;
+import model.CarType;
 
 import static util.Constants.STOP_WRITING_TO_FILE_WORD;
 

@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import record.Car;
-import record.CarType;
+import model.Car;
+import model.CarType;
 import service.definition.MappingService;
 
 import java.util.ArrayList;

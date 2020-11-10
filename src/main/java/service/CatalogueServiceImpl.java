@@ -2,8 +2,8 @@ package service;
 
 import console.ConsolePrinter;
 import exception.InvalidVehicleTypeException;
-import record.Car;
-import record.Vehicle;
+import model.Car;
+import model.Vehicle;
 import service.definition.CatalogueService;
 import service.definition.MappingService;
 

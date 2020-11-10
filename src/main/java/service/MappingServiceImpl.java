@@ -1,9 +1,9 @@
 package service;
 
 import exception.InvalidVehicleTypeException;
-import record.Car;
-import record.CarType;
-import record.Vehicle;
+import model.Car;
+import model.CarType;
+import model.Vehicle;
 import service.definition.MappingService;
 
 import java.util.Arrays;

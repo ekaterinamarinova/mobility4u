@@ -1,6 +1,6 @@
 import console.ConsolePrinter;
 import exception.InvalidVehicleTypeException;
-import record.CarType;
+import model.CarType;
 import service.CatalogueServiceImpl;
 import service.MappingServiceImpl;
 import service.ReaderServiceImpl;
