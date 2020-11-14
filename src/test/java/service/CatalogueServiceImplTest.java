@@ -17,26 +17,21 @@ import java.util.Scanner;
 
 import static util.Constants.PATH_TO_TEST_SIMULATED_INPUT_FILE;
 
-@RunWith(JUnit4.class)
-public class CatalogueServiceImplTest {
-
+@RunWith(JUnit4.class) public class CatalogueServiceImplTest {
     private List<Vehicle> sharedList;
     private CatalogueServiceImpl catalogueService;
     private Scanner scanner;
 
-    @Before
-    public void setUp() throws IOException {
+    @Before public void setUp() throws IOException {
         scanner = new Scanner(Path.of(PATH_TO_TEST_SIMULATED_INPUT_FILE));
         sharedList = new ArrayList<>();
-        catalogueService = new CatalogueServiceImpl(sharedList, new MappingServiceImpl(sharedList));
+        catalogueService = new CatalogueServiceImpl(sharedList, new MappingServiceImpl(sharedList), new FileOpsServiceImpl());
     }
 
-    @Test
-    public void testAddNewCarFromSTDIN() throws InvalidVehicleTypeException {
+    @Test public void testAddNewCarFromSTDIN() throws InvalidVehicleTypeException, IOException {
         int initialVehicleSize = sharedList.size();
         catalogueService.addNewCarFromSTDIN(scanner, CarType.ELECTRIC);
 
         Assert.assertNotEquals(initialVehicleSize, sharedList.size());
     }
-
 }

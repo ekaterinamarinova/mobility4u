@@ -1,7 +1,5 @@
 package service.definition;
 
-import model.Vehicle;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;

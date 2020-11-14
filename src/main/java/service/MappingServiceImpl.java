@@ -26,7 +26,7 @@ public class MappingServiceImpl implements MappingService {
      * @return
      * @throws InvalidVehicleTypeException
      */
-    public List<Vehicle> mapObjects(List<String> lines) throws InvalidVehicleTypeException {
+    @Override public List<Vehicle> mapObjects(List<String> lines) throws InvalidVehicleTypeException {
         var fields = new String[]{};
 
         for (String s : lines) {
@@ -53,9 +53,9 @@ public class MappingServiceImpl implements MappingService {
      * @return the created car object
      * @throws InvalidVehicleTypeException
      */
-    public Car mapObject(String type,
-                          String[] fields,
-                          List<Vehicle> vehicles) throws InvalidVehicleTypeException {
+    @Override public Car mapObject(String type,
+                         String[] fields,
+                         List<Vehicle> vehicles) throws InvalidVehicleTypeException {
         /*
             I would like to point out that I am initially against storing Integer values
             in the Car record simply because of the over complication of calling replace
@@ -85,7 +85,9 @@ public class MappingServiceImpl implements MappingService {
                             ENGINE_DISPLACEMENT + fields[2],
                             BATTERY_POWER + fields[4]);
                     default -> throw new InvalidVehicleTypeException(
-                            "The type received is invalid. Currently supported types are: " + Arrays.toString(CarType.values()) + " case insensitive.");
+                            "The type received is invalid. Currently supported types are: "
+                                    + Arrays.toString(CarType.values()) + " case insensitive."
+                    );
                 };
 
         vehicles.add(car);

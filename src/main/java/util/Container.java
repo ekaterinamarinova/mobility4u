@@ -2,11 +2,11 @@ package util;
 
 import model.Vehicle;
 import service.CatalogueServiceImpl;
-import service.MappingServiceImpl;
 import service.FileOpsServiceImpl;
+import service.MappingServiceImpl;
 import service.definition.CatalogueService;
-import service.definition.MappingService;
 import service.definition.FileOpsService;
+import service.definition.MappingService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

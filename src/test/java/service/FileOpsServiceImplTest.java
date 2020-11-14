@@ -12,25 +12,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@RunWith(JUnit4.class)
-public class FileOpsServiceImplTest
-{
-
+@RunWith(JUnit4.class) public class FileOpsServiceImplTest {
     private static final String MOBILITY_TXT_PATH = "/src/test/resources/mobility.txt";
     private static final String EMPTY_STR = "";
 
     private FileOpsService fileOpsService;
     private Path pathToFile;
 
-    @Before
-    public void setUp() {
+    @Before public void setUp() {
         fileOpsService = new FileOpsServiceImpl();
         var absoluteStringToFile = Paths.get(EMPTY_STR).toAbsolutePath().toString() + MOBILITY_TXT_PATH;
         pathToFile = Path.of(absoluteStringToFile);
     }
 
-    @Test
-    public void testReadFile() throws IOException {
+    @Test public void testReadFile() throws IOException {
         var lineCount = Files.readAllLines(pathToFile).stream().count();
         var result = fileOpsService.readFile(pathToFile);
 
@@ -42,5 +37,4 @@ public class FileOpsServiceImplTest
     public void testReadFile_withInvalidPath() throws IOException {
         fileOpsService.readFile(Path.of(""));
     }
-
 }

@@ -1,3 +1,0 @@
-ELECTRIC_CAR Tesla, Model 3, 150KW, 50000Ah, 30000 euro
-GAS_CAR Honda, Civic, 1.5L, 80KW, 18000 euro
-HYBRID_CAR Toyota, Prius, 1.5L, 50KW, 12000Ah, 24000 euro
