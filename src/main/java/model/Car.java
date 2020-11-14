@@ -10,8 +10,7 @@ public record Car(String type,
                   Integer price,
                   String... otherProperties) implements Vehicle {
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
@@ -23,15 +22,13 @@ public record Car(String type,
                 Arrays.equals(otherProperties, car.otherProperties);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = Objects.hash(type, brand, model, power, price);
         result = 31 * result + Arrays.hashCode(otherProperties);
         return result;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return type.toUpperCase() +
                 " " + brand +
                 ", " + model +
