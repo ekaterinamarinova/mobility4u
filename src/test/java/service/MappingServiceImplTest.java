@@ -23,13 +23,12 @@ import java.util.List;
     }
 
     @Test public void testMapGasCarToObject() throws InvalidVehicleTypeException {
+        //arrange
         lines.add("GAS_CAR Honda, Civic, 1.5L, 80KW, 18000 euro");
-
         var cars = mappingService.mapObjects(lines);
-
-        Car car = new Car(CarType.GAS, "honda", "civic", "80kw",
-                "18000euro", "engineDisplacement: 1.5l");
-
+        //act
+        Car car = new Car(CarType.GAS, "honda", "civic", "80kw", "18000euro", "1.5l");
+        //assert
         Assert.assertEquals(car, cars.get(0));
     }
 }
