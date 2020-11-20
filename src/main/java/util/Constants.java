@@ -22,8 +22,6 @@ public final class Constants {
      * model-related properties
      */
     public static final String SHARED_LIST_NAME = "sharedVehicleList";
-    public static final String ENGINE_DISPLACEMENT = "engineDisplacement: ";
-    public static final String BATTERY_POWER = "batteryPower: ";
 
     /**
      * symbols
@@ -36,4 +34,22 @@ public final class Constants {
      * end of user stdin property
      */
     public static final String STOP_WRITING_TO_FILE_WORD = "!stop!";
+
+    /**
+     * model indexes
+     */
+    public static final byte BRAND = 0;
+    public static final byte MODEL = 1;
+    public static final byte ENGINE_DISPLACEMENT = 2;
+
+    public static final byte GAS_POWER = 3;
+    public static final byte GAS_PRICE = 4;
+
+    public static final byte ELECTRIC_POWER = 2;
+    public static final byte ELECTRIC_BATTERY_POWER = 3;
+    public static final byte ELECTRIC_PRICE = 4;
+
+    public static final byte HYBRID_POWER = 3;
+    public static final byte HYBRID_BATTERY_POWER = 4;
+    public static final byte HYBRID_PRICE = 5;
 }

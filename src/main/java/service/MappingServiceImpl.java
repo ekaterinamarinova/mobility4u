@@ -56,28 +56,29 @@ public class MappingServiceImpl implements MappingService {
     @Override public Car mapObject(String type,
                          String[] fields,
                          List<Vehicle> vehicles) throws InvalidVehicleTypeException {
-        Car car = switch (type)
-                {
+        Car car = switch (type) {
                     case CarType.GAS -> new Car(type,
-                            fields[0], //brand
-                            fields[1], //model
-                            fields[3], //power
-                            fields[4], //price
-                            ENGINE_DISPLACEMENT + fields[2]  //otherProps
+                            fields[BRAND],
+                            fields[MODEL],
+                            fields[GAS_POWER],
+                            fields[GAS_PRICE],
+                            fields[ENGINE_DISPLACEMENT]
                     );
                     case CarType.ELECTRIC -> new Car(type,
-                            fields[0], //brand
-                            fields[1], //model
-                            fields[2], //power
-                            fields[4], //price
-                            BATTERY_POWER + fields[3]);
+                            fields[BRAND],
+                            fields[MODEL],
+                            fields[ELECTRIC_POWER],
+                            fields[ELECTRIC_PRICE],
+                            fields[ELECTRIC_BATTERY_POWER]
+                    );
                     case CarType.HYBRID -> new Car(type,
-                            fields[0], //brand
-                            fields[1], //model
-                            fields[3], //power
-                            fields[5], //price
-                            ENGINE_DISPLACEMENT + fields[2],
-                            BATTERY_POWER + fields[4]);
+                            fields[BRAND],
+                            fields[MODEL],
+                            fields[HYBRID_POWER],
+                            fields[HYBRID_PRICE],
+                            fields[ENGINE_DISPLACEMENT],
+                            fields[HYBRID_BATTERY_POWER]
+                    );
                     default -> throw new InvalidVehicleTypeException(
                             "The type received is invalid. Currently supported types are: "
                                     + Arrays.toString(CarType.values()) + " case insensitive."
