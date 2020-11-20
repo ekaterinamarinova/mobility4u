@@ -3,11 +3,13 @@ package model;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static util.Constants.*;
+
 public record Car(String type,
                   String brand,
                   String model,
-                  Integer power,
-                  Integer price,
+                  String power,
+                  String price,
                   String... otherProperties) implements Vehicle {
 
     @Override public boolean equals(Object o) {
@@ -34,6 +36,17 @@ public record Car(String type,
                 ", " + model +
                 ", " + power +
                 ", " + price +
-                ", " + Arrays.toString(otherProperties);
+                ", " + otherPropsToString();
+    }
+
+    private String otherPropsToString() {
+        StringBuilder props = new StringBuilder();
+        for (String p: otherProperties) {
+            if (p.contains(ENGINE_DISPLACEMENT))
+                props.append(p.replaceAll(ENGINE_DISPLACEMENT, EMPTY_SPACE));
+            if (p.contains(BATTERY_POWER))
+                props.append(p.replaceAll(BATTERY_POWER, EMPTY_SPACE));
+        }
+        return props.toString();
     }
 }
