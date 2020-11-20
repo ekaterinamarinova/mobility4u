@@ -1,2 +1,2 @@
 Tesla, Model 3, 150KW, 50000Ah, 30000 euro
-!close!
+!stop!

@@ -1,13 +1,13 @@
 package service;
 
 import exception.InvalidVehicleTypeException;
+import model.CarType;
+import model.Vehicle;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import model.CarType;
-import model.Vehicle;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static util.Constants.PATH_TO_TEST_CATALOG;
 import static util.Constants.PATH_TO_TEST_SIMULATED_INPUT_FILE;
 
 @RunWith(JUnit4.class) public class CatalogueServiceImplTest {
@@ -29,9 +30,12 @@ import static util.Constants.PATH_TO_TEST_SIMULATED_INPUT_FILE;
     }
 
     @Test public void testAddNewCarFromSTDIN() throws InvalidVehicleTypeException, IOException {
+        //arrange
         int initialVehicleSize = sharedList.size();
+        catalogueService.setPathToUserCatalog(Path.of(PATH_TO_TEST_CATALOG));
+        //act
         catalogueService.addNewCarFromSTDIN(scanner, CarType.ELECTRIC);
-
+        //assert
         Assert.assertNotEquals(initialVehicleSize, sharedList.size());
     }
 }

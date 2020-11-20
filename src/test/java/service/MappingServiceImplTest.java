@@ -27,8 +27,8 @@ import java.util.List;
 
         var cars = mappingService.mapObjects(lines);
 
-        Car car = new Car(CarType.GAS, "honda", "civic", 80,
-                18000, "engineDisplacement: 1.5l");
+        Car car = new Car(CarType.GAS, "honda", "civic", "80kw",
+                "18000euro", "engineDisplacement: 1.5l");
 
         Assert.assertEquals(car, cars.get(0));
     }
