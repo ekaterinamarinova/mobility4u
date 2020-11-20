@@ -94,8 +94,6 @@ public class CatalogueServiceImpl implements CatalogueService {
             carProps.append(current);
         }
 
-        fileOpsService.writeToFile(pathToUserCatalog, Collections.singletonList(carProps.toString()));
-
         var car = mappingService.mapObject(
                 carType,
                 carProps.toString()
@@ -104,6 +102,7 @@ public class CatalogueServiceImpl implements CatalogueService {
                 vehicles
         );
 
+        fileOpsService.writeToFile(pathToUserCatalog, Collections.singletonList(car.toString()));
         System.out.println("Car object successfully created: " + car.toString());
     }
 
