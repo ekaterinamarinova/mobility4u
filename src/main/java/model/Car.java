@@ -3,8 +3,6 @@ package model;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static util.Constants.*;
-
 public record Car(String type,
                   String brand,
                   String model,
@@ -41,11 +39,10 @@ public record Car(String type,
 
     private String otherPropsToString() {
         StringBuilder props = new StringBuilder();
-        for (String p: otherProperties) {
-            if (p.contains(ENGINE_DISPLACEMENT))
-                props.append(p.replaceAll(ENGINE_DISPLACEMENT, EMPTY_SPACE));
-            if (p.contains(BATTERY_POWER))
-                props.append(p.replaceAll(BATTERY_POWER, EMPTY_SPACE));
+        for (int i = 0; i < otherProperties.length; i++) {
+            props.append(otherProperties[i]);
+            if (i != otherProperties.length - 1)
+                props.append(", ");
         }
         return props.toString();
     }
