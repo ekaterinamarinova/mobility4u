@@ -56,32 +56,26 @@ public class MappingServiceImpl implements MappingService {
     @Override public Car mapObject(String type,
                          String[] fields,
                          List<Vehicle> vehicles) throws InvalidVehicleTypeException {
-        /*
-            I would like to point out that I am initially against storing Integer values
-            in the Car record simply because of the over complication of calling replace
-            and valueOf functions, and when stored those values are later displayed as strings anyway.
-            But assuming we give up processor power over memory, this micro optimization would be valid.
-        */
         Car car = switch (type)
                 {
                     case CarType.GAS -> new Car(type,
                             fields[0], //brand
                             fields[1], //model
-                            Integer.valueOf(fields[3].replaceAll(REGEX, EMPTY_SPACE)), //power
-                            Integer.valueOf(fields[4].replaceAll(REGEX, EMPTY_SPACE)), //price
+                            fields[3], //power
+                            fields[4], //price
                             ENGINE_DISPLACEMENT + fields[2]  //otherProps
                     );
                     case CarType.ELECTRIC -> new Car(type,
                             fields[0], //brand
                             fields[1], //model
-                            Integer.valueOf(fields[2].replaceAll(REGEX, EMPTY_SPACE)), //power
-                            Integer.valueOf(fields[4].replaceAll(REGEX, EMPTY_SPACE)), //price
+                            fields[2], //power
+                            fields[4], //price
                             BATTERY_POWER + fields[3]);
                     case CarType.HYBRID -> new Car(type,
                             fields[0], //brand
                             fields[1], //model
-                            Integer.valueOf(fields[3].replaceAll(REGEX, EMPTY_SPACE)), //power
-                            Integer.valueOf(fields[5].replaceAll(REGEX, EMPTY_SPACE)), //price
+                            fields[3], //power
+                            fields[5], //price
                             ENGINE_DISPLACEMENT + fields[2],
                             BATTERY_POWER + fields[4]);
                     default -> throw new InvalidVehicleTypeException(
