@@ -6,11 +6,12 @@
 
     <groupId>com.cars</groupId>
     <artifactId>mobility4u</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <version>1.0</version>
 
     <properties>
         <maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
+        <maven-surefire-plugin-version>2.22.2</maven-surefire-plugin-version>
         <junit-version>4.12</junit-version>
     </properties>
 
@@ -27,7 +28,13 @@
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin-version}</version>
+                <configuration>
+                    <argLine>--enable-preview</argLine>
+                </configuration>
+            </plugin>
 
         </plugins>
     </build>
